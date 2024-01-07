@@ -1,0 +1,14 @@
+.alb{
+    width: 815px;
+    padding: 20px;
+    margin-bottom: 4px;
+    background-color: black;
+    border-radius: 4px solid red;
+}
+.alb img{
+    font-family: Arial;
+    font-size: 14px;
+    line-height: 16px;
+    color: #282828;
+    font-weight: 100;
+}
