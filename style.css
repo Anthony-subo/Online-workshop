@@ -246,7 +246,7 @@ ul{
 .copyright{
     text-align: center;
 }
-.memu-icon{
+.menu-icon{
     width: 28px;
     margin-left: 20px;
     display: none;
@@ -408,8 +408,8 @@ form .btn:focus{
         left: 0;
         background: #333;
         width: 100%;
-        overflow: hidden;
-        transition: max-height o.5s;
+        /*overflow: hidden;
+        transition: max-height o.5s;*/
     }
     nav ul li{
         display: block;
@@ -418,9 +418,9 @@ form .btn:focus{
         margin-bottom: 10px;
     }
     nav ul li a{
-       color: #fff;
+       color: black;
     }
-    .memu-icon{
+    .menu-icon{
         display: block;
         cursor: pointer;
     }
