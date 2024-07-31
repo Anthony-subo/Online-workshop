@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<?php
+
+  require_once 'connection.php';
+
+  $sql = "SELECT * FROM product";
+  $all_product = $conn->query($sql);
+
+
+?>
+
+<DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,63 +41,23 @@
             onclick="menutoggle()" width="30px" height="30px">
         </div>
     </div>
-
-<!--------single products details------->
-     <div class="small-container single-product">
-        <div class="row">
-            <div class="col-2">
-                <img src="images/2.jpg" width="100%" id="productImg">
-              <div class="small-img-row">
-                <div class="small-img-col">
-                    <img src="images/1.jpg" width="100%" class="small-img">
-                </div>
-                <div class="small-img-col">
-                    <img src="images/3.jpg" width="100%" class="small-img" >
-                </div>
-                <div class="small-img-col">
-                    <img src="images/4.jpg" width="100%"class="small-img">
-                </div>
-                <div class="small-img-col">
-                    <img src="images/6.jpg" width="100%" class="small-img">
-            </div>
-        </div>
-            </div>
-            <div class="col-2">
-                <p>Home /BED</p>
-                <h1>RED  THREE SEAT CHAIR</h1>
-                <h4>$50.00</h4>
-                <select >
-                    <option >select size</option>
-                    <option >6 by 6</option>
-                    <option >6 by 3</option>
-                    <option >3 by 3</option>
-                    <option >3 by 2</option>
-                </select>
-                <input type="number" value="1">
-                <a href="" class="btn">Add To shopping cart</a>
-                <h3>Products Details <i class="fa fa-ident"></i></h3>
-                <p>they gooodndjkal,amjskeooeokkjjj,nhhjjkkjjkkkk.     hhjikmmnvfyt  hhhvtujh  gvvh</p>
-            </div><br>
-        </div>
-     </div>
-
-
-
-<!----------Title--------->
-<div class="small-container">
-    <div class="row row-2">
-        <h2>Related Product</h2>
-        <a href="products.html"><p>view more</p></a>
-    </div>
-</div>
-
-
-
-<!-----products----->
    <div class="small-container">
+    <div class="row row-2">
+        <h2>All Products</h2>
+        <select >
+            <option>Default Shorting</option>
+            <option>Short by price</option>
+            <option>short by popularity</option>
+            <option >short by rating</option>
+            <option >short by sale</option>
+        </select>
+    </div>
+    <?php
+          while($row = mysqli_fetch_assoc($all_product)){
+       ?>
     <div class="row">
         <div class="col-4">
-            <img src="images/b.jpg" >
+        <img src="<?php echo $row["product_image"]; ?>" alt="">
             <div class="rating">
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
@@ -95,45 +65,39 @@
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star-o"></i>
             </div>
-        </div>
-        <div class="col-4">
-            <img src="images/b1.jpg" >
-            <div class="rating">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star-half-o"></i>
-                <i class="fa fa-star-o"></i>
-            </div>
-        </div>
-        
-        <div class="col-4">
-            <img src="images/c2.jpg" >
-            <div class="rating">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star-half-o"></i>
-            </div>
-        </div>
-        <div class="col-4">
-            <img src="images/c.jpg" >
-            <div class="rating">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star-o"></i>
-            </div>
-        </div>
+           <p class="product_name"><?php echo $row["product_name"];  ?></p>
+               <p class="price"><b>$<?php echo $row["price"]; ?></b></p>
+               <p class="discount"><b><del>$<?php echo $row["discount"]; ?></del></b></p>
+           </div>
+           <button class="add" data-id="<?php echo $row["product_id"];  ?>">Add to cart</button>
+       </div>
+       <?php
+
+          }
+     ?>
+
         </div>
 
+        <div class="page-btn">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span> 
+            <span>&#8594;</span>
+        </div>
         
          <!---------------footer----------->
          <div class="footer">
             <div class="container">
                 <div class="row">
+                    <div class="footer-col-1">
+                        <h3>Download Our App</h3>
+                        <p>Download App for Android and ios mobile phone</p> 
+                        <div class="app-logo">
+                            <img src="images/wallpaperflare.com_wallpaper (7).jpg" >
+                            <img src="images/wallpaperflare.com_wallpaper (7).jpg" >
+                        </div>
+                    </div>
                     <div class="footer-col-2">
                         <img src="images/Carpentry tools background Royalty Free Vector Image.jpg">
                         <p> Our Purpose is To Sustain Make the Pleasure and
@@ -178,29 +142,28 @@
                     MenuItems.style.maxHeight == "opx" ;
                 }
             }
-            </script>
+         </script>
+         <script>
+       var product_id = document.getElementsByClassName("add");
+       for(var i = 0; i<product_id.length; i++){
+           product_id[i].addEventListener("click",function(event){
+               var target = event.target;
+               var id = target.getAttribute("data-id");
+               var xml = new XMLHttpRequest();
+               xml.onreadystatechange = function(){
+                   if(this.readyState == 4 && this.status == 200){
+                       var data = JSON.parse(this.responseText);
+                       target.innerHTML = data.in_cart;
+                       document.getElementById("badge").innerHTML = data.num_cart + 1;
+                   }
+               }
 
-            <!---------js for product gallery --- --->
-<script>
-var ProductImg = document.getElementById("productImg");
-var SmallImg = document.getElementsByClassName("small-img");
-SmallImg[0].onclick = function()
-{
-    ProductImg.src =SmallImg[0].src;
-}
-SmallImg[1].onclick = function()
-{
-    ProductImg.src =SmallImg[1].src;
-}
-SmallImg[2].onclick = function()
-{
-    ProductImg.src =SmallImg[2].src;
-}
-SmallImg[3].onclick = function()
-{
-    ProductImg.src =SmallImg[3].src;
-}
-</script>
+               xml.open("GET","connection.php?id="+id,true);
+               xml.send();
+            
+           })
+       }
 
+   </script>
 </body>
 </html>
